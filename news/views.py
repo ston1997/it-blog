@@ -4,4 +4,8 @@ from .models import News
 
 def index(request):
     news = News.objects.all()
-    return render(request, 'news/index.html', {'news':news}, {'title':'список новостей'})
+    context = {
+        'news': news,
+        'title': 'список новостей'
+    }
+    return render(request, 'news/index.html', context)
