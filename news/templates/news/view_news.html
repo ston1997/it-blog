@@ -30,7 +30,7 @@
                     <a class="nav-link active" aria-current="page" href="#">Вход</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Регистрация</a>
+                    <a class="nav-link" href="{% url 'add_news' %}">Добавить новость</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -65,7 +65,7 @@
                 {% if news_item.photo %}
                 <img src="{{ news_item.photo.url }}" alt="" width="350x" class="mr-3" style="border-radius: 20px;">
                 {% else %}
-
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6I6BdBWGWAOvq2JRLGi0BlgGPncNwfl6OPQ&usqp=CAU" alt="" width="350x" class="mr-3" style="border-radius: 20px;">
                 {% endif%}
                 <div class="media-body">
                     <h5 class="card-title">{{ news_item.title }}</h5>
