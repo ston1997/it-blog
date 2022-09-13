@@ -13,7 +13,7 @@
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRp0Boy_VsFk40H-W1m82vPk4K5pvhK7SxH_g&usqp=CAU"  alt="">
 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGCTCI6NyWGy32UsgLsV0A7yq0Z0BU4KcHF_qkurh8o8AIATgLbo6nx3YV6coj1h2UfPw&usqp=CAU" alt="">
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
         crossorigin="anonymous"></script>
 
@@ -36,7 +36,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         {% for item in categories %}
-                        <li><a class="dropdown-item" href="{% url 'cat' item.pk %}">{{ item.title }}</a></li>
+                        <li><a class="dropdown-item" href="{% url 'cat' item.pk %}">{{item.title}}</a></li>
                         {% endfor %}
                     </ul>
                 </li>
@@ -52,27 +52,55 @@
         </div>
     </div>
 </nav>
+<div class="container mt-3">
+<h1 style="text-align: center; margin: 30px 0px">{{title}}</h1>
 
+<h1>Регистрация</h1>
 
-<div class="col-md-9" style="margin: 0 auto; text-align: start;">
-    <div class="card md-3">
-        <div class="card-header">
-            Категория: {{ news_item.category }}
-            <div class="media">
-                {% if news_item.photo %}
-                <img src="{{ news_item.photo.url }}" alt="" width="350x" class="mr-3" style="border-radius: 20px;">
-                {% else %}
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6I6BdBWGWAOvq2JRLGi0BlgGPncNwfl6OPQ&usqp=CAU" alt="" width="350x" class="mr-3" style="border-radius: 20px;">
-                {% endif%}
-                <div class="media-body">
-                    <h5 class="card-title">{{ news_item.title }}</h5>
-                    <p class="card-text" style="text-align: start;">{{ news_item.content|linebreaksbr }}</p>
-                    <p>{{ news_item.created_at|date:"Y-m-d H:i" }}</p>
+{% if messages %}
+{% for message in messages %}
+    {% if message.tags == 'error' %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+    {% else %}
+        <div class="alert alert-{{ message.tags }}" role="alert">
+            {{ message }}
+        </div>
+    {% endif %}
+{% endfor %}
+{% endif %}
+
+<form method="post">
+            {% csrf_token %}
+    <form class="col-md-9" style="margin: 0 auto; text-align: start;">
+        {% for item in news %}
+        <div class="card md-3">
+            <div class="card-header">
+                Категория: {{ item.category }}
+                <div class="media">
+                    {% if item.photo %}
+                    <img src="{{item.photo.url}}" alt="" width="350x" class="mr-3" style="border-radius: 20px;">
+                    {% else %}
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6I6BdBWGWAOvq2JRLGi0BlgGPncNwfl6OPQ&usqp=CAU" alt="" width="350x" class="mr-3" style="border-radius: 20px;">
+                    {% endif%}
+                    <div class="media-body">
+                        <h5 class="card-title">{{ item.title }}</h5>
+                        <p class="card-text" style="text-align: start;">{{ item.content|linebreaksbr|truncatewords:100 }}</p>
+                        <a href="{{ item.get_absolute_url }}" class="btn btn-primary" style="margin: 0 auto 0 0;">read more...</a>
+                        <p>{{ item.created_at|date:"Y-m-d H:i" }}</p>
+                    </div>
                 </div>
             </div>
-        </div>
     </div>
-    <br>
+        <br>
+    {% endfor %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary btn-block">Регистрация</button>
+</form>
 
 </body>
 </html>
