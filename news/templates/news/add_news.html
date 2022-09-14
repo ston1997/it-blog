@@ -51,6 +51,14 @@
             </form>
         </div>
     </div>
+    {% if request.user.is_authenticated %}
+    Добро пожаловать, {{ user.username }}
+    <a href="{% url 'logout' %}">Выход</a>
+    {% else %}
+    <span class="navbar-text">
+        <a href="{% url 'login' %}">Вход</a> | <a href="{% url 'register' %}">Регистрация</a>
+    </span>
+    {% endif %}
 </nav>
 <div class="container mt-3">
 <h1 style="text-align: center; margin: 30px 0px">{{title}}</h1>
